@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "llm-chatbot"
 version = "0.1.0"
 description = "A minimal LLM chatbot package"
-dependencies = ["numpy==1.26.0"]
+dependencies = ["numpy>=1.26.2,<3.0"]
 
 [tool.setuptools]
 package-dir = { "" = "src" }
