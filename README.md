@@ -157,7 +157,7 @@ If you see `429 ResourceExhausted` errors:
 - Upgrade your Google API tier
 - Monitor usage at: https://ai.dev/usage
 
-
+## Acknowledgements
 - Code based on RAG Tutorial from [https://docs.langchain.com/oss/python/langchain/rag#google-gemini]
 - Built with [LangChain](https://github.com/langchain-ai/langchain)
 - Powered by [Google Gemini](https://ai.google.dev/)
