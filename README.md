@@ -11,6 +11,14 @@ A Retrieval-Augmented Generation (RAG) chatbot built with LangChain, featuring m
 - **Interactive CLI**: Simple command-line interface for chatbot interaction
 - **Google Gemini Integration**: Powered by Gemini 2.5 Flash Lite language model
 
+## Demo
+
+![Chatbot Demo KR](images/v1_model_demo/Korean1.png)
+![Chatbot Demo Eng](images/v1_model_demo/English1.png)
+![Chatbot Demo FR](images/v1_model_demo/French1.png)
+![Chatbot Demo Sp](images/v1_model_demo/Spanish1.png)
+![Chatbot Demo KR](images/v1_model_demo/Korean1_2.png)
+
 ## Project Structure
 
 ```
