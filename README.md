@@ -5,8 +5,8 @@ A Retrieval-Augmented Generation (RAG) chatbot built with LangChain, featuring m
 ## Features
 
 - **RAG Architecture**: Combines document retrieval with language model generation for accurate, context-aware responses
-- **Streaming Responses**: Real-time output streaming for better user experience
 - **Multilingual Support**: Built-in translation capabilities for multiple languages
+- **Streaming Responses**: Real-time output streaming for better user experience
 - **Vector Store Integration**: Uses HuggingFace embeddings for semantic document search
 - **Interactive CLI**: Simple command-line interface for chatbot interaction
 - **Google Gemini Integration**: Powered by Gemini 2.5 Flash Lite language model
