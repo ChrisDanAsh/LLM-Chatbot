@@ -36,4 +36,5 @@ Thumbs.db
 # Project
 .eggs/
 llm-chatbot/.venv/
+llm-chatbot/src/llm_chatbot.egg-info/
 .env
