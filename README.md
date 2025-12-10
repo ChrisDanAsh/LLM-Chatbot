@@ -12,12 +12,19 @@ A Retrieval-Augmented Generation (RAG) chatbot built with LangChain, featuring m
 - **Google Gemini Integration**: Powered by Gemini 2.5 Flash Lite language model
 
 ## Demo
-
+### Korean
 ![Chatbot Demo KR](images/v1_model_demo/Korean1.png)
-![Chatbot Demo Eng](images/v1_model_demo/English1.png)
-![Chatbot Demo FR](images/v1_model_demo/French1.png)
-![Chatbot Demo Sp](images/v1_model_demo/Spanish1.png)
 ![Chatbot Demo KR](images/v1_model_demo/Korean1_2.png)
+
+### English
+![Chatbot Demo Eng](images/v1_model_demo/English1.png)
+
+### French
+![Chatbot Demo FR](images/v1_model_demo/French1.png)
+
+### Spanish
+![Chatbot Demo Sp](images/v1_model_demo/Spanish1.png)
+
 
 ## Project Structure
 
@@ -47,7 +54,7 @@ llm-chatbot/
 
 - Python 3.12+
 - Google Gemini API key
-- HuggingFace token 
+- HuggingFace access token 
 - LangSmith API key
 
 ## Installation
