@@ -1,46 +1,38 @@
-"""Builds a vectorstore from a webpage."""
-import bs4
+"""Builds a vectorstore from a PDF document."""
 
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_core.vectorstores import InMemoryVectorStore
-from langchain_community.document_loaders import WebBaseLoader
+from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from .config import settings
 
 
-def build_vectorstore(url: str, persist_dir: str = "data/embeddings"):
+def build_vectorstore(file_path: str, persist_dir: str = "data/embeddings"):
     """
-        Loads a webpage, splits it into chunks, embeds them, and stores them in a vectorstore.
+         Loads a PDF file, splits it into chunks, embeds them, and stores them in a vectorstore.
 
     Args:
-        url (str): Webpage source to embed.
+        file_path (str): Path to the PDF file to embed.
         persist_dir (str): Directory to optionally save embeddings.
 
     Returns:
         InMemoryVectorStore: The constructed vectorstore containing embedded chunks.
     """
 
-    # 1. Load webpage
-    bs4_strainer = bs4.SoupStrainer(
-        class_=("post-title", "post-header", "post-content")
-    )  # only keep post titiles and content
-
-    loader = WebBaseLoader(
-        web_paths=(url,),
-        bs_kwargs={"parse_only": bs4_strainer},
-    )
+    # 1. Load PDF from file path
+    loader = PyPDFLoader(file_path)
 
     docs = loader.load()
 
     if not docs:
-        raise ValueError("Failed to load webpage — no documents returned.")
+        raise ValueError("Failed to pdf — no documents returned.")
 
-    print(f"Loaded {len(docs)} documents.")
+    # print(f"Loaded {len(docs)} documents.")
 
     # 2. Split into chunks
     text_splitter = RecursiveCharacterTextSplitter(
-        chunk_size=1000,  # chunk size (characters)
-        chunk_overlap=200,  # chunk overlap (characters)
+        chunk_size=500,  # chunk size (characters)
+        chunk_overlap=50,  # chunk overlap (characters)
         add_start_index=True,  # track index in original document
     )
     all_splits = text_splitter.split_documents(docs)
@@ -50,27 +42,37 @@ def build_vectorstore(url: str, persist_dir: str = "data/embeddings"):
 
     # 4. Create vectorstore
     vector_store = InMemoryVectorStore(embeddings)
-    document_ids = vector_store.add_documents(documents=all_splits)
-    print(f"Created vectorstore with {len(document_ids)} documents.")
+    vector_store.add_documents(documents=all_splits)
+    # document_ids = vector_store.add_documents(documents=all_splits)
+    # print(f"Created vectorstore with {len(document_ids)} documents.")
 
     return vector_store
 
 
-# Lazy-loaded singleton vectorstore
+# Global vectorstore instance
 _vectorstore = None
+
+
+def initialize_vectorstore():
+    """
+    Builds the vectorstore at startup.
+    Should be called once during application initialization.
+    """
+    global _vectorstore
+
+    _vectorstore = build_vectorstore(
+        file_path=settings.DOC_PATH,
+        persist_dir=settings.VECTORSTORE_DIR,
+    )
 
 
 def get_vectorstore():
     """
-    Returns the application-wide vectorstore instance.
-    Builds it on first use.
+    Returns the pre-initialized vectorstore instance.
+    Raises error if not initialized.
     """
-    global _vectorstore
-
     if _vectorstore is None:
-        _vectorstore = build_vectorstore(
-            url=settings.DOC_URL,
-            persist_dir=settings.VECTORSTORE_DIR,
+        raise RuntimeError(
+            "Vectorstore not initialized. Call initialize_vectorstore() first."
         )
-
     return _vectorstore

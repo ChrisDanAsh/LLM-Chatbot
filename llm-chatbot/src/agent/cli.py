@@ -1,11 +1,17 @@
 """Simple CLI application for testing the multilingual agent locally."""
 
 from agent.streaming import multilingual_agent_stream
+from agent.vectorstore import initialize_vectorstore
 
 
 def run_cli():
-    print("Welcome to the Multilingual AI CLI")
-    print("Type 'exit' or 'quit' to stop.\n")
+    print("Welcome to the Multilingual TT Visa FAQ Chatbot")
+    print("Initializing...\n")
+
+    # Initialize vectorstore at startup
+    initialize_vectorstore()
+    print("Initialization complete. You can start chatting now.")
+    print("\nType 'exit' or 'quit' to stop.\n")
 
     while True:
         user_input = input("You: ").strip()

@@ -7,4 +7,5 @@ langchain[google-genai]==1.1.2
 langchain-huggingface
 langchain-core==1.1.0
 sentence-transformers
+pypdf
 # add other runtime deps here

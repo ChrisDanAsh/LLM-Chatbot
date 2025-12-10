@@ -16,7 +16,7 @@ class Settings:
     GOOGLE_API_KEY: str = os.getenv("GOOGLE_API_KEY")
 
     # Vectorstore settings
-    DOC_URL: str = "https://lilianweng.github.io/posts/2023-06-23-agent/"
+    DOC_PATH: str = "data/TT_Visa_FAQ.pdf"
     VECTORSTORE_DIR: str = "data/embeddings"
 
     # Model settings

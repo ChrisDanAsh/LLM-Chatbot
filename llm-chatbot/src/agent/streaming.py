@@ -31,7 +31,13 @@ def multilingual_agent_stream(query: str) -> str:
         # Ensure valid streamed content
         if "messages" in step and step["messages"]:
             msg = step["messages"][-1]
-            if hasattr(msg, "content") and isinstance(msg.content, str):
+            # Only capture AI/assistant messages, not tool outputs
+            if (
+                hasattr(msg, "content")
+                and isinstance(msg.content, str)
+                and hasattr(msg, "type")
+                and msg.type == "ai"  # Filter for AI responses only
+            ):
                 english_fragments.append(msg.content)
 
     english_answer = "".join(english_fragments).strip()

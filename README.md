@@ -1,6 +1,8 @@
-# LLM-Chatbot
+# LLM based TT Visa FAQ Chatbot
 
-A Retrieval-Augmented Generation (RAG) chatbot built with LangChain, featuring multilingual support, streaming responses, and vector-based document retrieval.
+A Retrieval-Augmented Generation (RAG) chatbot for Trinidad and Tobago eVisa FAQs, built with LangChain. 
+
+Features multilingual support, streaming responses, and PDF-based document retrieval to answer visa application questions accurately.
 
 ## Features
 
@@ -11,25 +13,28 @@ A Retrieval-Augmented Generation (RAG) chatbot built with LangChain, featuring m
 - **Interactive CLI**: Simple command-line interface for chatbot interaction
 - **Google Gemini Integration**: Powered by Gemini 2.5 Flash Lite language model
 
+## How It Works
+
+1. **Startup**: The chatbot loads and processes the TT eVisa FAQ PDF (`data/TT_Visa_FAQ.pdf`) at initialization
+2. **Document Chunking**: PDF content is split into 500-character chunks with 50-character overlap
+3. **Embedding**: Each chunk is embedded using HuggingFace's `all-mpnet-base-v2` model
+4. **Query Processing**: User questions are matched against embedded chunks using semantic similarity
+5. **Response Generation**: Google Gemini generates concise answers based on the most relevant chunks
+6. **Multilingual Support**: Automatic language detection and translation for non-English queries
+
 ## Demo
-### Korean
-![Chatbot Demo KR](images/v1_model_demo/Korean1.png)
-![Chatbot Demo KR](images/v1_model_demo/Korean1_2.png)
+This demo showcases the chatbot accurately answering questions about Trinidad and Tobago eVisa applications based on the official FAQ document, with support for multiple languages.
 
-### English
-![Chatbot Demo Eng](images/v1_model_demo/English1.png)
-
-### French
-![Chatbot Demo FR](images/v1_model_demo/French1.png)
-
-### Spanish
-![Chatbot Demo Sp](images/v1_model_demo/Spanish1.png)
+[Demo_Picture](images/v2_FAQ_Chatbot_Demo/FAQDemo1.png)
 
 
 ## Project Structure
 
 ```
 llm-chatbot/
+|
+├── data/
+│   └──TT_Visa_FAQ.pdf           #FAQ document
 ├── src/
 │   └── agent/
 │       ├── __init__.py
@@ -56,6 +61,7 @@ llm-chatbot/
 - Google Gemini API key
 - HuggingFace access token 
 - LangSmith API key
+
 
 ## Installation
 
@@ -129,8 +135,33 @@ Type `exit`, `quit`, or press `Ctrl+C` to exit.
 
 ### Run Tests
 
+The project includes comprehensive unit tests, integration tests, and configuration validation.
+
+Note: Ensure that you are in the llm-chatbot directory to run the tests
+
+#### Run All Tests
+
 ```bash
 pytest tests/ -v
+```
+#### Run Fast Tests Only (Skip Model Loading)
+Some tests require loading the embedding model and PDF, which can be slow. To run only fast unit tests:
+```bash
+pytest tests/ -v -m "slow"
+```
+#### Run Specific Test Types
+```bash
+# Run only integration tests
+pytest tests/ -v -m "integration"
+
+# Run with code coverage report
+pytest tests/ --cov=agent --cov-report=html
+
+# Run a specific test file
+pytest tests/test_agent.py -v
+
+# Run a specific test function
+pytest tests/test_agent.py::test_version -v
 ```
 
 ### Code Formatting
@@ -148,7 +179,7 @@ flake8 src/ tests/
 ## Configuration
 
 Edit `src/agent/config.py` to customize:
-
+- **DOC_PATH**: Path to the FAQ PDF (default: `data/TT_Visa_FAQ.pdf`)
 - **Chat Model**: Change the LLM (default: `gemini-2.5-flash-lite`)
 - **Embedding Model**: Change the embedding model for vector search
 - **Vector Store Settings**: Adjust chunk size, overlap, and storage path
@@ -159,18 +190,28 @@ Edit `src/agent/config.py` to customize:
   - Upgrade to a paid tier for production use: https://ai.google.dev/pricing
   - Rate limit errors will show retry messages
   
-- **First Run**: Initial execution downloads the embedding model (~90MB), which may take a few minutes
+- ****PDF Document**: 
+  - The chatbot only answers questions based on the TT eVisa FAQ PDF in `data/TT_Visa_FAQ.pdf`. To use a different document, replace the PDF and update `DOC_PATH` in `src/agent/config.py`. 
+  
+  - This method was selected since the website hosting the document does not allow the chatbot to access it directly.
 
-- **Vector Store**: Documents need to be added to the vector store before retrieval works (see `vectorstore.py`)
+- **Initialization time**: 
+  - **First run**: Downloads the embedding model (~90MB, one-time download) and processes the PDF (~1 minute total)
+  - **Subsequent runs**: Loads and processes the PDF at startup (~3-5 seconds)
+  - The vectorstore is built in-memory at each startup, not persisted between sessions
+
 
 ## Troubleshooting
 
 ### Rate Limit Errors
 
 If you see `429 ResourceExhausted` errors:
-- Wait a few minutes between requests
-- Upgrade your Google API tier
+- Create a new Project on you Google API and create a new key for 20 more requests
 - Monitor usage at: https://ai.dev/usage
+- Upgrade your Google API tier
+
+## Next Steps
+- Implement web application with user friendly UI
 
 ## Acknowledgements
 - Code based on RAG Tutorial from [https://docs.langchain.com/oss/python/langchain/rag#google-gemini]
