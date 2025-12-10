@@ -25,7 +25,7 @@ Features multilingual support, streaming responses, and PDF-based document retri
 ## Demo
 This demo showcases the chatbot accurately answering questions about Trinidad and Tobago eVisa applications based on the official FAQ document, with support for multiple languages.
 
-[Demo_Picture](images/v2_FAQ_Chatbot_Demo/FAQDemo1.png)
+![Demo Screenshot](images/v2_FAQ_Chatbot_Demo/FAQDemo1.png)
 
 
 ## Project Structure
