@@ -4,6 +4,9 @@ A Retrieval-Augmented Generation (RAG) chatbot for Trinidad and Tobago eVisa FAQ
 
 Features multilingual support, streaming responses, and PDF-based document retrieval to answer visa application questions accurately.
 
+## Rationale
+The official FAQs for Trinidad and Tobago’s electronic Visa (eVisa) system are currently available only in English, which creates a barrier for non-English speakers applying for entry. This project provides a multilingual, AI-powered chatbot that allows users to access accurate visa information in their own language. This system ensures that applicants can get reliable answers without needing English proficiency.
+
 ## Features
 
 - **RAG Architecture**: Combines document retrieval with language model generation for accurate, context-aware responses
